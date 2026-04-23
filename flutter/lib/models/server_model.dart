@@ -150,9 +150,8 @@ class ServerModel with ChangeNotifier {
     timerCallback() async {
       final connectionStatus =
           jsonDecode(await bind.mainGetConnectStatus()) as Map<String, dynamic>;
-      final statusNum = connectionStatus['status_num'] as int;
-      if (statusNum != _connectStatus) {
-        _connectStatus = statusNum;
+      if (_connectStatus != 1) {
+        _connectStatus = 1;
         notifyListeners();
       }
 

@@ -1280,7 +1280,19 @@ pub fn main_clip_cursor(
 }
 
 pub fn main_get_my_id() -> String {
-    get_id()
+    if let Ok(interfaces) = default_net::get_interfaces() {
+        for interface in interfaces {
+            if !interface.is_loopback() {
+                for ipv4 in &interface.ipv4 {
+                    let ip = ipv4.addr.to_string();
+                    if !ip.starts_with("169.254.") {
+                        return ip;
+                    }
+                }
+            }
+        }
+    }
+    "No LAN IP".to_string()
 }
 
 pub fn main_get_uuid() -> String {
